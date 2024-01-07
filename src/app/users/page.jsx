@@ -105,7 +105,7 @@ const HomePage = () => {
                           </i>
                         </Link>
                         <Link
-                          href="./page.jsx"
+                          href={`/user/${user.id}`}
                           className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                         >
                           <i>
