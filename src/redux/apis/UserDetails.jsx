@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const UserDetailsApi = createApi({
   reducerPath: "UserDetails",
@@ -8,12 +8,9 @@ const UserDetailsApi = createApi({
   endpoints(builder) {
     return {
       fetchUserDetails: builder.query({
-        query: (userId) => {
+        query: (id) => {
           return {
-            url: "user",
-            params: {
-              userId,
-            },
+            url: `user/${id}`,
             method: "GET",
             headers: {
               "app-id": "65956feced1269023544412a",

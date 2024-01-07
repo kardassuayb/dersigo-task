@@ -1,5 +1,6 @@
 import "@/styles/reset.css";
 import "./globals.css";
+
 import { ReduxProvider } from "@/redux/ReduxProvider";
 
 export const metadata = {

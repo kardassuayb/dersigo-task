@@ -5,11 +5,12 @@ import { IconSquareRoundedLetterX } from "@tabler/icons-react";
 import { IconUserEdit } from "@tabler/icons-react";
 import { IconExternalLink } from "@tabler/icons-react";
 import { IconPlus } from "@tabler/icons-react";
-
+// NEXT
 import Image from "next/image";
 import Link from "next/link";
-
+// REACT
 import { useState } from "react";
+// RTK
 import { useFetchUsersQuery } from "@/redux/store";
 
 const HomePage = () => {
@@ -38,12 +39,9 @@ const HomePage = () => {
     <div>
       <div className="grid grid-cols-12 gap-x-5 mt-4">
         <div className="col-span-12">
-          <div className="box">
-            <div className="flex justify-end items-center space-x-2">
+          <div className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative">
+            <div className="flex justify-end items-center space-x-2 my-2">
               <div className="relative">
-                <label htmlFor="user-search" className="label">
-                  Search
-                </label>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-4">
                   <svg
                     className="h-3.5 w-3.5 text-gray-400"
@@ -62,12 +60,15 @@ const HomePage = () => {
                   id="user-search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="p-2 pr-10 search-input"
+                  className="py-2 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                   placeholder="Search for users"
                 />
               </div>
               <div className="">
-                <Link href="./page.jsx" className="btn btn-primary float-right">
+                <Link
+                  href="./page.jsx"
+                  className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-normal focus:ring-0 focus:outline-none focus:ring-offset-0 transition-all text-sm m-1 ml-0 bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 float-right"
+                >
                   <IconPlus size={16} />
                   Add User
                 </Link>
@@ -80,10 +81,10 @@ const HomePage = () => {
                 className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 "
                 key={user.id}
               >
-                <div className="box user-box">
-                  <div className="box-body space-y-3">
-                    <div className="user-image">
-                      <Link href="./page.jsx">
+                <div className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative user-box">
+                  <div className="p-3 space-y-3">
+                    <div className="relative mx-auto p-2 border border-gray-200 rounded-sm bg-gray-100">
+                      <Link href={`/users/${user.id}`}>
                         <Image
                           src={user.image}
                           width={160}
@@ -105,7 +106,7 @@ const HomePage = () => {
                           </i>
                         </Link>
                         <Link
-                          href={`/user/${user.id}`}
+                          href={`/users/${user.id}`}
                           className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                         >
                           <i>
@@ -122,7 +123,7 @@ const HomePage = () => {
                         </Link>
                       </div>
                     </div>
-                    <div className="user-details">
+                    <div className="flex justify-center items-end space-x-2">
                       <p>{user.title}</p>
                       <h5 className="text-lg font-semibold">{user.name}</h5>
                     </div>
