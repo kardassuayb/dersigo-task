@@ -1,6 +1,5 @@
 "use client";
-// CSS
-import "./globals.css";
+
 // ICONS
 import { IconSquareRoundedLetterX } from "@tabler/icons-react";
 import { IconUserEdit } from "@tabler/icons-react";
@@ -21,11 +20,13 @@ const HomePage = () => {
     ? data.data.map((item) => {
         const id = item.id;
         const image = item.picture;
-        const name = `${item.title}, ${item.firstName} ${item.lastName}`;
+        const title = `(${item.title})`;
+        const name = `${item.lastName.toUpperCase()}, ${item.firstName}`;
 
         return {
           id,
           image,
+          title,
           name,
         };
       })
@@ -76,7 +77,7 @@ const HomePage = () => {
           <div className="grid grid-cols-12 gap-x-6">
             {transformedData.map((user) => (
               <div
-                className="col-span-12 md:col-span-6 xxl:!col-span-4"
+                className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 "
                 key={user.id}
               >
                 <div className="box user-box">
@@ -85,8 +86,8 @@ const HomePage = () => {
                       <Link href="./page.jsx">
                         <Image
                           src={user.image}
-                          width={200}
-                          height={200}
+                          width={160}
+                          height={160}
                           className="mx-auto rounded-sm"
                           alt="User's Picture"
                         />
@@ -97,28 +98,32 @@ const HomePage = () => {
                           className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                         >
                           <i>
-                            <IconExternalLink />
+                            <IconSquareRoundedLetterX
+                              size={20}
+                              color="orange"
+                            />
                           </i>
                         </Link>
                         <Link
                           href="./page.jsx"
-                          className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                          className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                         >
                           <i>
-                            <IconUserEdit />
+                            <IconExternalLink size={16} />
                           </i>
                         </Link>
                         <Link
                           href="./page.jsx"
-                          className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                          className="z-40 absolute top-[5.5rem] right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                         >
                           <i>
-                            <IconSquareRoundedLetterX />
+                            <IconUserEdit size={16} />
                           </i>
                         </Link>
                       </div>
                     </div>
-                    <div className="user-details space-y-1">
+                    <div className="user-details">
+                      <p>{user.title}</p>
                       <h5 className="text-lg font-semibold">{user.name}</h5>
                     </div>
                   </div>

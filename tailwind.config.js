@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,6 +9,15 @@ module.exports = {
     applyComplexClasses: true,
   },
   theme: {
+    screens: {
+      xs: "20px",
+      sm: "480px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+      xxl: "1400px",
+      xxxl: "1800px",
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -18,5 +26,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss")],
+  plugins: [],
 };
