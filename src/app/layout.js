@@ -2,6 +2,7 @@ import "@/styles/reset.css";
 import "./globals.css";
 
 import { ReduxProvider } from "@/redux/ReduxProvider";
+import SideMenu from "./components/sidemenu";
 
 export const metadata = {
   title: "Next.js",
@@ -12,7 +13,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <ReduxProvider>
-        <body>{children}</body>
+        <body className="sm:flex sm:flex-col md:grid grid-cols-12 gap-x-5 mt-4">
+          <div className="col-span-2 sm:mb-10 md:mb-0">
+            <SideMenu />
+          </div>
+          <div className="col-span-10 sm:px-5 md:pr-5">{children}</div>
+        </body>
       </ReduxProvider>
     </html>
   );

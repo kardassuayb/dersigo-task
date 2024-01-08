@@ -8,27 +8,36 @@ const UsersApi = createApi({
   endpoints(builder) {
     return {
       fetchUsers: builder.query({
-        // providesTags: ["User"],
+        // providesTags: ["Users"],
         query: () => {
           return {
             url: "user",
             method: "GET",
+            params: {
+              limit: 20,
+            },
             headers: {
               "app-id": "65956feced1269023544412a",
             },
           };
         },
       }),
-      //   addProduct: builder.mutation({
-      //     invalidatesTags: ["Product"],
-      //     query: (newProduct) => {
-      //       return {
-      //         url: "Add",
-      //         method: "POST",
-      //         body: newProduct,
-      //       };
-      //     },
-      //   }),
+      addUser: builder.mutation({
+        // invalidatesTags: ["Users"],
+        query: (newUser) => {
+          return {
+            url: "user/create",
+            method: "POST",
+            params: {
+              created: 1,
+            },
+            headers: {
+              "app-id": "65956feced1269023544412a",
+            },
+            body: newUser,
+          };
+        },
+      }),
       //   removeProduct: builder.mutation({
       //     invalidatesTags: ["Product"],
       //     query: (product) => {
@@ -66,7 +75,7 @@ const UsersApi = createApi({
 export { UsersApi };
 export const {
   useFetchUsersQuery,
-  //   useAddProductMutation,
+  useAddUserMutation,
   //   useRemoveProductMutation,
   //   useUpdateProductMutation,
 } = UsersApi;
