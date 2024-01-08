@@ -1,6 +1,7 @@
 "use client";
 
 import { useFetchUserDetailsQuery } from "@/redux/store";
+import Image from "next/image";
 import {
   MDBCol,
   MDBContainer,
@@ -12,10 +13,57 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import dersigoUser from "../../../../asset/images/dersigoUser.png";
 
 const UserDetails = ({ params }) => {
   const id = params.id;
   const { data, error, isFetching } = useFetchUserDetailsQuery(id);
+
+  const picture =
+    data && data.picture && data.picture != null ? (
+      <MDBCardImage
+        src={data.picture}
+        alt="Avatar"
+        className="my-5 mx-auto rounded-full"
+        style={{ width: "120px" }}
+        fluid
+      />
+    ) : (
+      <Image
+        src={dersigoUser}
+        alt="Avatar"
+        className="my-5 mx-auto rounded-full"
+        width={120}
+      />
+    );
+  const state =
+    data &&
+    data.location &&
+    data.location.state != null &&
+    data.location.state != ""
+      ? data.location.state
+      : "Unknown";
+  const country =
+    data &&
+    data.location &&
+    data.location.country != null &&
+    data.location.country != ""
+      ? data.location.country
+      : "Unknown";
+  const gender =
+    data &&
+    data.location &&
+    data.location.gender != null &&
+    data.location.gender != undefined
+      ? capitalizeAllWords(data.location.gender)
+      : "Unknown";
+  const dateOfBirth =
+    data &&
+    data.location &&
+    data.location.dateOfBirth != null &&
+    data.location.dateOfBirth != undefined
+      ? formatDate(data.location.dateOfBirth)
+      : "Unknown";
 
   // TARİH FORMAT DEĞİŞİKLİĞİ
   const formatDate = (dateString) => {
@@ -72,18 +120,12 @@ const UserDetails = ({ params }) => {
                       borderBottomLeftRadius: ".5rem",
                     }}
                   >
-                    <MDBCardImage
-                      src={data.picture}
-                      alt="Avatar"
-                      className="my-5 mx-auto rounded-full"
-                      style={{ width: "120px" }}
-                      fluid
-                    />
+                    {picture}
                     <MDBTypography tag="h5">
                       {data.firstName} {data.lastName}
                     </MDBTypography>
                     <MDBCardText>
-                      {data.location.state}, {data.location.country}
+                      {state}, {country}
                     </MDBCardText>
                   </MDBCol>
                   <MDBCol md="8">
@@ -98,7 +140,7 @@ const UserDetails = ({ params }) => {
                             Gender
                           </MDBTypography>
                           <MDBCardText className="text-muted">
-                            {capitalizeAllWords(data.gender)}
+                            {gender}
                           </MDBCardText>
                         </MDBCol>
                         <MDBCol size="6" className="mb-3">
@@ -106,7 +148,7 @@ const UserDetails = ({ params }) => {
                             Date of Birth
                           </MDBTypography>
                           <MDBCardText className="text-muted">
-                            {formatDate(data.dateOfBirth)}
+                            {dateOfBirth}
                           </MDBCardText>
                         </MDBCol>
                       </MDBRow>

@@ -12,6 +12,9 @@ import Link from "next/link";
 import { useState } from "react";
 // RTK
 import { useFetchUsersQuery } from "@/redux/store";
+import { useRemoveUserMutation } from "@/redux/store";
+// USER IMAGE
+import dersigoUser from "../../../asset/images/dersigoUser.png";
 
 const HomePage = () => {
   const { data, error, isFetching } = useFetchUsersQuery();
@@ -20,8 +23,8 @@ const HomePage = () => {
   const transformedData = data
     ? data.data.map((item) => {
         const id = item.id;
-        const image = item.picture;
-        const title = `(${item.title})`;
+        const image = item.picture ? item.picture : dersigoUser;
+        const title = `(${item.title ? item.title : "none"})`;
         const name = `${item.lastName.toUpperCase()}, ${item.firstName}`;
 
         return {
@@ -33,7 +36,18 @@ const HomePage = () => {
       })
     : [];
 
-  const { searchTerm, setSearchTerm } = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // ÜRÜN SİLME
+  const [removeUser] = useRemoveUserMutation();
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const deleteUser = () => {
+    removeUser(selectedUserId);
+    setIsDeleteModalOpen(false);
+    setSelectedUserId(null);
+  };
 
   return (
     <div>
@@ -89,17 +103,41 @@ const HomePage = () => {
                       height={160}
                       className="mx-auto rounded-sm"
                       alt="User's Picture"
+                      priority
                     />
                   </Link>
                   <div className="user-icons">
-                    <Link
-                      href="./page.jsx"
-                      className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
-                    >
+                    <div className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
                       <i>
-                        <IconSquareRoundedLetterX size={20} color="orange" />
+                        <IconSquareRoundedLetterX
+                          size={20}
+                          color="orange"
+                          onClick={() => {
+                            setSelectedUserId(user.id);
+                            setIsDeleteModalOpen(true);
+                          }}
+                        />
                       </i>
-                    </Link>
+                      {isDeleteModalOpen && selectedUserId === user.id && (
+                        <div className="flex flex-col gap-2 absolute -top-[40px] -right-[122px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
+                          <p>Delete User!</p>
+                          <div className="flex justify-around gap-2">
+                            <button
+                              onClick={deleteUser}
+                              className="text-red-700"
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className="text-blue-700"
+                              onClick={() => setIsDeleteModalOpen(false)}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                     <Link
                       href={`/users/usersList/${user.id}`}
                       className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
@@ -118,7 +156,7 @@ const HomePage = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="flex justify-center items-end space-x-2">
+                <div className="flex justify-center space-x-2">
                   <p>{user.title}</p>
                   <h5 className="text-lg font-semibold">{user.name}</h5>
                 </div>

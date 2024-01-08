@@ -75,7 +75,7 @@ const AddUser = () => {
           <div className="p-3">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col col-span-2 text-form-label rounded "
+              className="flex flex-col col-span-2 rounded "
             >
               <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
                 <div className="flex flex-col">

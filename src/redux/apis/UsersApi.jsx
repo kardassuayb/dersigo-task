@@ -8,7 +8,7 @@ const UsersApi = createApi({
   endpoints(builder) {
     return {
       fetchUsers: builder.query({
-        // providesTags: ["Users"],
+        providesTags: ["Users"],
         query: () => {
           return {
             url: "user",
@@ -24,7 +24,7 @@ const UsersApi = createApi({
         },
       }),
       addUser: builder.mutation({
-        // invalidatesTags: ["Users"],
+        invalidatesTags: ["Users"],
         query: (newUser) => {
           return {
             url: "user/create",
@@ -39,20 +39,21 @@ const UsersApi = createApi({
           };
         },
       }),
-      //   removeProduct: builder.mutation({
-      //     invalidatesTags: ["Product"],
-      //     query: (product) => {
-      //       return {
-      //         url: "/Delete",
-      //         method: "POST",
-      //         body: {
-      //           ConsumerId: "9e924124-dfec-4235-91b3-285b17cc4947",
-      //           ConsumerUserId: "3b15e611-a2b2-4127-8309-38e9c9acd495",
-      //           Id: product.id,
-      //         },
-      //       };
-      //     },
-      //   }),
+      removeUser: builder.mutation({
+        invalidatesTags: ["Users"],
+        query: (id) => {
+          return {
+            url: `user/${id}`,
+            method: "DELETE",
+            headers: {
+              "app-id": "65956feced1269023544412a",
+            },
+            body: {
+              id,
+            },
+          };
+        },
+      }),
       //   updateProduct: builder.mutation({
       //     invalidatesTags: ["Product"],
       //     query: (updateProduct) => {
@@ -77,6 +78,6 @@ export { UsersApi };
 export const {
   useFetchUsersQuery,
   useAddUserMutation,
-  //   useRemoveProductMutation,
+  useRemoveUserMutation,
   //   useUpdateProductMutation,
 } = UsersApi;
