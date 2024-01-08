@@ -48,6 +48,11 @@ const AddUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (formData.phone.length < 5) {
+      console.error("Telefon numarası en az 5 karakter içermelidir.");
+      return;
+    }
+
     try {
       const response = await addUser(formData);
 
@@ -75,13 +80,16 @@ const AddUser = () => {
               <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
                 <div className="flex flex-col">
                   <label className="block text-sm font-medium mb-2">
-                    Title
+                    Title <span className="text-red-500">*</span>
                   </label>
                   <select
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="title"
+                    defaultValue="none"
+                    required
                   >
+                    <option value="">Choose One</option>
                     <option value="ms">Ms</option>
                     <option value="miss">Miss</option>
                     <option value="mr">Mr</option>
@@ -128,13 +136,15 @@ const AddUser = () => {
                 </div>
                 <div className="flex flex-col">
                   <label className="block text-sm font-medium mb-2">
-                    Gender
+                    Gender <span className="text-red-500">*</span>
                   </label>
                   <select
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="gender"
+                    required
                   >
+                    <option value="">Choose One</option>
                     <option value="female">female</option>
                     <option value="male">male</option>
                     <option value="other">other</option>
@@ -159,8 +169,9 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="phone"
-                    type="tel"
+                    type="number"
                     placeholder="Phone Number"
+                    minLength={5}
                   />
                 </div>
                 <div className="flex flex-col">

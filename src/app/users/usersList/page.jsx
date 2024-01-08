@@ -64,7 +64,7 @@ const HomePage = () => {
           </div>
           <div className="">
             <Link
-              href="./page.jsx"
+              href="/users/newUser"
               className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-normal focus:ring-0 focus:outline-none focus:ring-offset-0 transition-all text-sm m-1 ml-0 bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 float-right"
             >
               <IconPlus size={16} />
