@@ -20,5 +20,6 @@ export {
   useFetchUsersQuery,
   useAddUserMutation,
   useRemoveUserMutation,
+  useUpdateUserMutation,
 } from "./apis/UsersApi";
 export { useFetchUserDetailsQuery } from "./apis/UserDetails";

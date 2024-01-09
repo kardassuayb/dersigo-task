@@ -1,12 +1,16 @@
 "use client";
-import { useAddUserMutation } from "@/redux/store";
-import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { IconPlus } from "@tabler/icons-react";
+import { useUpdateUserMutation } from "@/redux/store";
+import { useFetchUserDetailsQuery } from "@/redux/store";
+import { useEffect, useState } from "react";
+import { IconEdit } from "@tabler/icons-react";
 
-const AddUser = () => {
+const UpdateUser = ({ params }) => {
+  const id = params.id;
+  const { data: userData, error, isFetching } = useFetchUserDetailsQuery(id);
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation(id);
+  console.log(userData);
+
   const [formData, setFormData] = useState({
-    id: uuidv4(),
     title: "",
     firstName: "",
     lastName: "",
@@ -23,6 +27,29 @@ const AddUser = () => {
       timezone: "",
     },
   });
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        title: userData.title ?? "",
+        firstName: userData.firstName ?? "",
+        lastName: userData.lastName ?? "",
+        gender: userData.gender ?? "",
+        email: userData.email ?? "",
+        dateOfBirth: userData.dateOfBirth ?? "",
+        phone: userData.phone ?? "",
+        location: {
+          street: userData.location?.street ?? "",
+          city: userData.location?.city ?? "",
+          state: userData.location?.state ?? "",
+          country: userData.location?.country ?? "",
+          timezone: userData.location?.timezone ?? "",
+        },
+      });
+    }
+  }, [userData]);
+
+  console.log(formData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,8 +75,6 @@ const AddUser = () => {
     }
   };
 
-  const [addUser] = useAddUserMutation();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,18 +84,48 @@ const AddUser = () => {
     }
 
     try {
-      const response = await addUser(formData);
+      const updatedData = {
+        ...Object.keys(formData).reduce((acc, key) => {
+          if (formData[key] !== userData[key]) {
+            acc[key] = formData[key];
+          }
+          return acc;
+        }, {}),
+        location: {
+          ...Object.keys(address.location).reduce((acc, key) => {
+            if (address.location[key] !== userData.location[key]) {
+              acc[key] = address.location[key];
+            }
+            return acc;
+          }, {}),
+        },
+      };
+
+      const response = await updateUser(updatedData);
 
       if (response.error) {
         console.error("Veri gönderilemedi!");
         return;
       }
-
       console.log("Veri gönderildi!");
     } catch (error) {
       console.error("Bir hata oluştu:", error);
     }
-    console.log(formData);
+  };
+
+  // TARİH FORMAT DEĞİŞİKLİĞİ
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+
+    const date = new Date(dateString);
+    return date
+      .toLocaleDateString("tr-TR", options)
+      .replace(".", "/")
+      .replace(".", "/");
   };
 
   return (
@@ -91,7 +146,7 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="title"
-                    value="ms"
+                    value={formData.title}
                     required
                   >
                     <option value="ms">ms</option>
@@ -110,7 +165,7 @@ const AddUser = () => {
                     name="firstName"
                     type="text"
                     required
-                    placeholder="First Name"
+                    defaultValue={formData.firstName}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -123,7 +178,7 @@ const AddUser = () => {
                     name="lastName"
                     type="text"
                     required
-                    placeholder="Last Name"
+                    defaultValue={formData.lastName}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -131,11 +186,11 @@ const AddUser = () => {
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
-                    onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="email"
                     type="email"
-                    required
+                    defaultValue={formData.email}
+                    readOnly
                   />
                 </div>
                 <div className="flex flex-col">
@@ -146,7 +201,7 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="gender"
-                    value="female"
+                    value={formData.gender}
                     required
                   >
                     <option value="female">female</option>
@@ -163,6 +218,7 @@ const AddUser = () => {
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="dateOfBirth"
                     type="datetime-local"
+                    defaultValue={formatDate(formData.dateOfBirth)}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -174,8 +230,8 @@ const AddUser = () => {
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="phone"
                     type="number"
-                    placeholder="Phone Number"
                     minLength={5}
+                    defaultValue={formData.phone}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -184,10 +240,7 @@ const AddUser = () => {
                   </label>
                   <input
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        picture: URL.createObjectURL(e.target.files[0]),
-                      })
+                      setFormData({ ...formData, picture: e.target.files[0] })
                     }
                     className="py-2 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                     type="file"
@@ -208,7 +261,7 @@ const AddUser = () => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="street"
                       type="text"
-                      placeholder="Street"
+                      defaultValue={formData.street}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -220,7 +273,7 @@ const AddUser = () => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="city"
                       type="text"
-                      placeholder="City"
+                      defaultValue={formData.city}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -232,7 +285,7 @@ const AddUser = () => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="state"
                       type="text"
-                      placeholder="State"
+                      defaultValue={formData.state}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -244,7 +297,7 @@ const AddUser = () => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="country"
                       type="text"
-                      placeholder="Country"
+                      defaultValue={formData.country}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -256,7 +309,7 @@ const AddUser = () => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="timezone"
                       type="text"
-                      placeholder="Ex: (+9:00, -8:00)"
+                      defaultValue={formData.timezone}
                     />
                   </div>
                 </div>
@@ -265,7 +318,7 @@ const AddUser = () => {
                 type="submit"
                 className="flex justify-center items-center gap-2 px-4 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
               >
-                <IconPlus size={16} /> Add User
+                <IconEdit size={16} /> Update
               </button>
             </form>
           </div>
@@ -275,4 +328,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default UpdateUser;

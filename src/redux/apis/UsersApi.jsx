@@ -14,8 +14,8 @@ const UsersApi = createApi({
             url: "user",
             method: "GET",
             params: {
-              limit: 30,
-              page: 3,
+              limit: 21,
+              page: 4,
             },
             headers: {
               "app-id": "65956feced1269023544412a",
@@ -54,22 +54,22 @@ const UsersApi = createApi({
           };
         },
       }),
-      //   updateProduct: builder.mutation({
-      //     invalidatesTags: ["Product"],
-      //     query: (updateProduct) => {
-      //       const { Id, ...rest } = updateProduct;
-      //       return {
-      //         url: "/Update",
-      //         method: "POST",
-      //         body: {
-      //           Id,
-      //           ConsumerId: "9e924124-dfec-4235-91b3-285b17cc4947",
-      //           ConsumerUserId: "3b15e611-a2b2-4127-8309-38e9c9acd495",
-      //           ...rest,
-      //         },
-      //       };
-      //     },
-      //   }),
+      updateUser: builder.mutation({
+        invalidatesTags: ["Users"],
+        query: (updateUser) => {
+          const { id /*güncellenen veri*/ } = updateUser;
+          return {
+            url: `user/${id}`,
+            method: "PUT",
+            headers: {
+              "app-id": "65956feced1269023544412a",
+            },
+            body: {
+              //güncellenen veri
+            },
+          };
+        },
+      }),
     };
   },
 });
@@ -79,5 +79,5 @@ export const {
   useFetchUsersQuery,
   useAddUserMutation,
   useRemoveUserMutation,
-  //   useUpdateProductMutation,
+  useUpdateUserMutation,
 } = UsersApi;

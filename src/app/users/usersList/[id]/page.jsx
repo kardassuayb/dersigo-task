@@ -19,6 +19,31 @@ const UserDetails = ({ params }) => {
   const id = params.id;
   const { data, error, isFetching } = useFetchUserDetailsQuery(id);
 
+  // TARİH FORMAT DEĞİŞİKLİĞİ
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+
+    const date = new Date(dateString);
+    return date
+      .toLocaleDateString("tr-TR", options)
+      .replace(".", "/")
+      .replace(".", "/");
+  };
+
+  // KELİMELERİN İLK HARFLERİNİ BÜYÜK YAPAR
+  function capitalizeAllWords(str) {
+    return str
+      .split(" ")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      })
+      .join(" ");
+  }
+
   const picture =
     data && data.picture && data.picture != null ? (
       <MDBCardImage
@@ -51,44 +76,13 @@ const UserDetails = ({ params }) => {
       ? data.location.country
       : "Unknown";
   const gender =
-    data &&
-    data.location &&
-    data.location.gender != null &&
-    data.location.gender != undefined
-      ? capitalizeAllWords(data.location.gender)
+    data && data.gender && data.gender != null
+      ? capitalizeAllWords(data.gender)
       : "Unknown";
   const dateOfBirth =
-    data &&
-    data.location &&
-    data.location.dateOfBirth != null &&
-    data.location.dateOfBirth != undefined
-      ? formatDate(data.location.dateOfBirth)
+    data && data.dateOfBirth && data.dateOfBirth != null
+      ? formatDate(data.dateOfBirth)
       : "Unknown";
-
-  // TARİH FORMAT DEĞİŞİKLİĞİ
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    };
-
-    const date = new Date(dateString);
-    return date
-      .toLocaleDateString("tr-TR", options)
-      .replace(".", "/")
-      .replace(".", "/");
-  };
-
-  // KELİMELERİN İLK HARFLERİNİ BÜYÜK YAPAR
-  function capitalizeAllWords(str) {
-    return str
-      .split(" ")
-      .map((word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-      })
-      .join(" ");
-  }
 
   if (isFetching) {
     return <div>Loading...</div>;

@@ -119,7 +119,7 @@ const HomePage = () => {
                         />
                       </i>
                       {isDeleteModalOpen && selectedUserId === user.id && (
-                        <div className="flex flex-col gap-2 absolute -top-[40px] -right-[122px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
+                        <div className="flex flex-col gap-2 absolute -top-[54px] right-[22px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
                           <p>Delete User!</p>
                           <div className="flex justify-around gap-2">
                             <button
@@ -147,7 +147,7 @@ const HomePage = () => {
                       </i>
                     </Link>
                     <Link
-                      href="./page.jsx"
+                      href={`/users/updateUser/${user.id}`}
                       className="z-40 absolute top-[5.5rem] right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                     >
                       <i>
