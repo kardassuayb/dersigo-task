@@ -1,21 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const UsersApi = createApi({
-  reducerPath: "users",
+const PostsApi = createApi({
+  reducerPath: "posts",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://dummyapi.io/data/v1/",
   }),
   endpoints(builder) {
     return {
-      fetchUsers: builder.query({
-        providesTags: ["Users"],
+      fetchPosts: builder.query({
+        providesTags: ["Posts"],
         query: () => {
           return {
-            url: "user",
+            url: "post",
             method: "GET",
             params: {
-              limit: 21,
-              page: 4,
+              limit: 20,
             },
             headers: {
               "app-id": "65956feced1269023544412a",
@@ -23,27 +22,24 @@ const UsersApi = createApi({
           };
         },
       }),
-      addUser: builder.mutation({
-        invalidatesTags: ["Users"],
-        query: (newUser) => {
+      addPost: builder.mutation({
+        invalidatesTags: ["Posts"],
+        query: (newPost) => {
           return {
-            url: "user/create",
+            url: "post/create",
             method: "POST",
-            params: {
-              created: 1,
-            },
             headers: {
               "app-id": "65956feced1269023544412a",
             },
-            body: newUser,
+            body: newPost,
           };
         },
       }),
-      removeUser: builder.mutation({
-        invalidatesTags: ["Users"],
+      removePost: builder.mutation({
+        invalidatesTags: ["Posts"],
         query: (id) => {
           return {
-            url: `user/${id}`,
+            url: `post/${id}`,
             method: "DELETE",
             headers: {
               "app-id": "65956feced1269023544412a",
@@ -54,16 +50,19 @@ const UsersApi = createApi({
           };
         },
       }),
-      updateUser: builder.mutation({
-        invalidatesTags: ["Users"],
-        query: ({ id, ...updatedData }) => {
+      updatePost: builder.mutation({
+        invalidatesTags: ["Posts"],
+        query: (updatePost) => {
+          const { id } = updatePost;
           return {
-            url: `user/${id}`,
+            url: `post/${id}`,
             method: "PUT",
             headers: {
               "app-id": "65956feced1269023544412a",
             },
-            body: updatedData,
+            body: {
+              //güncellenen veri
+            },
           };
         },
       }),
@@ -71,10 +70,10 @@ const UsersApi = createApi({
   },
 });
 
-export { UsersApi };
+export { PostsApi };
 export const {
-  useFetchUsersQuery,
-  useAddUserMutation,
-  useRemoveUserMutation,
-  useUpdateUserMutation,
-} = UsersApi;
+  useFetchPostsQuery,
+  useAddPostMutation,
+  useRemovePostMutation,
+  useUpdatePostMutation,
+} = PostsApi;

@@ -7,8 +7,7 @@ import { IconEdit } from "@tabler/icons-react";
 const UpdateUser = ({ params }) => {
   const id = params.id;
   const { data: userData, error, isFetching } = useFetchUserDetailsQuery(id);
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation(id);
-  console.log(userData);
+  const [updateUser] = useUpdateUserMutation();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -49,8 +48,6 @@ const UpdateUser = ({ params }) => {
     }
   }, [userData]);
 
-  console.log(formData);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (
@@ -84,24 +81,26 @@ const UpdateUser = ({ params }) => {
     }
 
     try {
-      const updatedData = {
-        ...Object.keys(formData).reduce((acc, key) => {
-          if (formData[key] !== userData[key]) {
-            acc[key] = formData[key];
-          }
-          return acc;
-        }, {}),
-        location: {
-          ...Object.keys(address.location).reduce((acc, key) => {
-            if (address.location[key] !== userData.location[key]) {
-              acc[key] = address.location[key];
-            }
-            return acc;
-          }, {}),
-        },
-      };
+      const updatedData = {};
 
-      const response = await updateUser(updatedData);
+      Object.keys(formData).forEach((key) => {
+        if (key !== "location" && formData[key] !== userData[key]) {
+          updatedData[key] = formData[key];
+        }
+      });
+
+      const updatedLocation = {};
+
+      Object.keys(formData.location).forEach((key) => {
+        if (formData.location[key] !== userData.location[key]) {
+          updatedLocation[key] = formData.location[key];
+        }
+      });
+      if (Object.keys(updatedLocation).length > 0) {
+        updatedData.location = updatedLocation;
+      }
+
+      const response = await updateUser({ id, ...updatedData });
 
       if (response.error) {
         console.error("Veri gönderilemedi!");
@@ -261,7 +260,7 @@ const UpdateUser = ({ params }) => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="street"
                       type="text"
-                      defaultValue={formData.street}
+                      defaultValue={formData.location.street}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -273,7 +272,7 @@ const UpdateUser = ({ params }) => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="city"
                       type="text"
-                      defaultValue={formData.city}
+                      defaultValue={formData.location.city}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -285,7 +284,7 @@ const UpdateUser = ({ params }) => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="state"
                       type="text"
-                      defaultValue={formData.state}
+                      defaultValue={formData.location.state}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -297,7 +296,7 @@ const UpdateUser = ({ params }) => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="country"
                       type="text"
-                      defaultValue={formData.country}
+                      defaultValue={formData.location.country}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -309,7 +308,7 @@ const UpdateUser = ({ params }) => {
                       className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="timezone"
                       type="text"
-                      defaultValue={formData.timezone}
+                      defaultValue={formData.location.timezone}
                     />
                   </div>
                 </div>
