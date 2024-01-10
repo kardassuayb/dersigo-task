@@ -69,7 +69,7 @@ const SideMenu = () => {
               </li>
               <li className="p-1">
                 <Link
-                  href="/posts/postsList"
+                  href="/posts/newPost"
                   className="text-blue-500 hover:text-blue-400 hover:border-b-2 border-blue-400"
                 >
                   New Post

@@ -28,6 +28,9 @@ const PostsApi = createApi({
           return {
             url: "post/create",
             method: "POST",
+            params: {
+              created: 1,
+            },
             headers: {
               "app-id": "65956feced1269023544412a",
             },

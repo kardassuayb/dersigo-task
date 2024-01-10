@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "react-query": "^3.39.3",
     "react-redux": "^9.0.4",
+    "react-tag-input-component": "^2.0.2",
     "react-tooltip-lite": "^1.12.0",
     "uuid": "^9.0.1"
   },

@@ -1,6 +1,6 @@
 "use client";
 import { useAddUserMutation } from "@/redux/store";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { IconPlus } from "@tabler/icons-react";
 
@@ -91,7 +91,6 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="title"
-                    value="ms"
                     required
                   >
                     <option value="ms">ms</option>
@@ -146,7 +145,6 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="gender"
-                    value="female"
                     required
                   >
                     <option value="female">female</option>
@@ -180,7 +178,7 @@ const AddUser = () => {
                 </div>
                 <div className="flex flex-col">
                   <label className="block text-sm font-medium mb-2">
-                    Resim
+                    Image
                   </label>
                   <input
                     onChange={(e) =>
