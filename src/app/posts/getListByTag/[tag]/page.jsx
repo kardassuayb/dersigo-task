@@ -8,12 +8,11 @@ import { IconPlus } from "@tabler/icons-react";
 // NEXT
 import Link from "next/link";
 // REACT
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // RTK
 import { useFetchPostsQuery } from "@/redux/store";
 import { useRemovePostMutation } from "@/redux/store";
 // USER IMAGE
-import dersigoUser from "../../../asset/images/dersigoUser.png";
 
 // MATERIAL UI
 import * as React from "react";
@@ -27,7 +26,6 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -46,8 +44,10 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const PostsList = () => {
+const GetListByTag = ({ params }) => {
+  const tag = params.tag;
   const { data, error, isFetching } = useFetchPostsQuery();
+  console.log(data);
 
   // TARİH FORMAT DEĞİŞİKLİĞİ
   const formatDate = (dateString) => {
@@ -74,8 +74,14 @@ const PostsList = () => {
       .join(" ");
   }
 
+  const filteredData = data
+    ? data.data.filter((item) => item.tags.includes(tag))
+    : [];
+
+  console.log(filteredData);
+
   const transformedData = data
-    ? data.data.map((item) => {
+    ? filteredData.map((item) => {
         const id = item.id;
         const image = item.image
           ? item.image
@@ -125,11 +131,9 @@ const PostsList = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredData = transformedData.filter((item) =>
+  const searchedData = transformedData.filter((item) =>
     item.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  console.log(filteredData);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -207,7 +211,7 @@ const PostsList = () => {
         </div>
       </div>
       <div className="grid grid-cols-12 gap-x-6">
-        {filteredData.map((item) => (
+        {searchedData.map((item) => (
           <Card
             key={item.id}
             className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative min-h-[322px]"
@@ -321,4 +325,4 @@ const PostsList = () => {
   );
 };
 
-export default PostsList;
+export default GetListByTag;

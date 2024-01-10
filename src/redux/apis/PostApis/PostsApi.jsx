@@ -14,7 +14,7 @@ const PostsApi = createApi({
             url: "post",
             method: "GET",
             params: {
-              limit: 20,
+              limit: 50,
             },
             headers: {
               "app-id": "65956feced1269023544412a",
