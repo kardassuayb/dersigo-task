@@ -10,10 +10,10 @@ import Link from "next/link";
 // REACT
 import { useState } from "react";
 // RTK
-import { useFetchPostsQuery } from "@/redux/store";
+import { useFetchGetListByUserQuery } from "@/redux/store";
 import { useRemovePostMutation } from "@/redux/store";
 // USER IMAGE
-import dersigoUser from "../../../asset/images/dersigoUser.png";
+import dersigoUser from "../../../../asset/images/dersigoUser.png";
 
 // MATERIAL UI
 import * as React from "react";
@@ -46,8 +46,9 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const PostsList = () => {
-  const { data, error, isFetching } = useFetchPostsQuery();
+const GetListByUser = ({ params }) => {
+  const userId = params.id;
+  const { data, error, isFetching } = useFetchGetListByUserQuery(userId);
 
   // TARİH FORMAT DEĞİŞİKLİĞİ
   const formatDate = (dateString) => {
@@ -98,7 +99,6 @@ const PostsList = () => {
           item.owner && item.owner.picture != null
             ? item.owner.picture
             : dersigoUser;
-        const postTitle = `${ownerTitle}  ${ownerFirstName}  ${ownerLastName}`;
 
         return {
           id,
@@ -112,7 +112,6 @@ const PostsList = () => {
           ownerFirstName,
           ownerLastName,
           ownerPicture,
-          postTitle,
         };
       })
     : [];
@@ -207,11 +206,7 @@ const PostsList = () => {
             className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative min-h-[322px]"
           >
             <CardHeader
-              avatar={
-                <Link href={`/posts/getListByUser/${item.ownerId}`}>
-                  <Avatar alt="Owner" src={item.ownerPicture} />
-                </Link>
-              }
+              avatar={<Avatar alt="Owner" src={item.ownerPicture} />}
               action={
                 <div>
                   <IconButton
@@ -244,11 +239,7 @@ const PostsList = () => {
                   </Menu>
                 </div>
               }
-              title={
-                <Link href={`/posts/getListByUser/${item.ownerId}`}>
-                  {item.postTitle}
-                </Link>
-              }
+              title={`${item.ownerTitle} ${item.ownerFirstName} ${item.ownerLastName}`}
               subheader={item.publishDate}
             />
             <Link href={`/posts/postsList/${item.id}`}>
@@ -303,7 +294,7 @@ const PostsList = () => {
                 <Typography paragraph>Tags:</Typography>
                 {item.tags.map((tag) => (
                   <Typography key={tag} variant="body2" color="text.secondary">
-                    <Link href={`/posts/getListByTag/${tag}`}>{tag}</Link>
+                    {tag}
                   </Typography>
                 ))}
               </CardContent>
@@ -315,4 +306,4 @@ const PostsList = () => {
   );
 };
 
-export default PostsList;
+export default GetListByUser;

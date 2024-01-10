@@ -45,7 +45,12 @@ const PostDetails = ({ params }) => {
   }
 
   const Id = data ? data.id : "";
-  const image = data && data.image ? data.image : dersigoUser;
+  const image =
+    data && data.image
+      ? data.image
+      : error
+      ? "https://www.dersigo.com/assets/images/logo/logo.png"
+      : "";
   const likes = data && data.likes ? data.likes : 0;
   const tags = data && data.tags ? data.tags : [];
   const text = data && data.text ? capitalizeAllWords(data.text) : "";
@@ -66,7 +71,9 @@ const PostDetails = ({ params }) => {
   const ownerPicture =
     data && data.owner && data.owner.picture != null
       ? data.owner.picture
-      : dersigoUser;
+      : error
+      ? "https://www.dersigo.com/assets/images/logo/logo.png"
+      : "";
 
   return (
     <div>

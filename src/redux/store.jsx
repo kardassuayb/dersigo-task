@@ -2,8 +2,9 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { UsersApi } from "./apis/UsersApi";
 import { UserDetailsApi } from "./apis/UserDetails";
-import { PostsApi } from "./apis/PostsApi";
-import { PostDetailsApi } from "./apis/PostDetails";
+import { PostsApi } from "./apis/PostApis/PostsApi";
+import { PostDetailsApi } from "./apis/PostApis/PostDetails";
+import { GetListByUserApi } from "./apis/PostApis/GetListByUserApi";
 
 export const store = configureStore({
   reducer: {
@@ -11,13 +12,15 @@ export const store = configureStore({
     [UserDetailsApi.reducerPath]: UserDetailsApi.reducer,
     [PostsApi.reducerPath]: PostsApi.reducer,
     [PostDetailsApi.reducerPath]: PostDetailsApi.reducer,
+    [GetListByUserApi.reducerPath]: GetListByUserApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(UsersApi.middleware)
       .concat(UserDetailsApi.middleware)
       .concat(PostsApi.middleware)
-      .concat(PostDetailsApi.middleware),
+      .concat(PostDetailsApi.middleware)
+      .concat(GetListByUserApi.middleware),
 });
 
 setupListeners(store.dispatch);
@@ -34,5 +37,6 @@ export {
   useAddPostMutation,
   useRemovePostMutation,
   useUpdatePostMutation,
-} from "./apis/PostsApi";
-export { useFetchPostDetailsQuery } from "./apis/PostDetails";
+} from "./apis/PostApis/PostsApi";
+export { useFetchPostDetailsQuery } from "./apis/PostApis/PostDetails";
+export { useFetchGetListByUserQuery } from "./apis/PostApis/GetListByUserApi";
