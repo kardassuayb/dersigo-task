@@ -144,6 +144,7 @@ const PostsList = () => {
       ...prevState,
       [itemId]: null,
     }));
+    console.log(itemId);
   };
 
   // POST SİLME
@@ -217,7 +218,9 @@ const PostsList = () => {
                     onClose={() => handleClose(item.id)}
                   >
                     <MenuItem onClick={() => handleClose(item.id)}>
-                      <IconExternalLink />
+                      <Link href={`/posts/postsList/${item.id}`}>
+                        <IconExternalLink />
+                      </Link>
                     </MenuItem>
                     <MenuItem onClick={() => handleClose(item.id)}>
                       <IconSquareRoundedLetterX
@@ -236,13 +239,15 @@ const PostsList = () => {
               title={`${item.ownerTitle} ${item.ownerFirstName} ${item.ownerLastName}`}
               subheader={item.publishDate}
             />
-            <CardMedia
-              component="img"
-              height="120"
-              image={item.image}
-              alt="post's picture"
-              className="!h-[120px]"
-            />
+            <Link href={`/posts/postsList/${item.id}`}>
+              <CardMedia
+                component="img"
+                height="120"
+                image={item.image}
+                alt="post's picture"
+                className="!h-[120px]"
+              />
+            </Link>
             <CardContent>
               <Typography variant="body2" color="text.secondary">
                 {item.text}

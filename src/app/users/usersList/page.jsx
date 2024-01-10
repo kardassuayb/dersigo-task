@@ -110,8 +110,6 @@ const HomePage = () => {
                     <div className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
                       <i>
                         <IconSquareRoundedLetterX
-                          size={20}
-                          color="orange"
                           onClick={() => {
                             setSelectedUserId(user.id);
                             setIsDeleteModalOpen(true);
@@ -143,7 +141,7 @@ const HomePage = () => {
                       className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                     >
                       <i>
-                        <IconExternalLink size={16} />
+                        <IconExternalLink />
                       </i>
                     </Link>
                     <Link
@@ -151,7 +149,7 @@ const HomePage = () => {
                       className="z-40 absolute top-[5.5rem] right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                     >
                       <i>
-                        <IconUserEdit size={16} />
+                        <IconUserEdit />
                       </i>
                     </Link>
                   </div>
