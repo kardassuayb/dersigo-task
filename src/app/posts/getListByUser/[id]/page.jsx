@@ -198,6 +198,7 @@ const GetListByUser = ({ params }) => {
           </div>
         </div>
       </div>
+
       <div className="grid grid-cols-12 gap-x-6">
         {filteredData.map((item) => (
           <Card
