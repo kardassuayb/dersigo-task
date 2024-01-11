@@ -14,8 +14,6 @@ import { useState } from "react";
 // RTK
 import { useFetchUsersQuery } from "@/redux/store";
 import { useRemoveUserMutation } from "@/redux/store";
-// USER IMAGE
-import dersigoUser from "../../../asset/images/dersigoUser.png";
 
 const HomePage = () => {
   const { data, error, isFetching } = useFetchUsersQuery();
@@ -49,7 +47,7 @@ const HomePage = () => {
   const transformedData = data
     ? data.data.map((item) => {
         const id = item.id;
-        const image = item.picture ? item.picture : dersigoUser;
+        const image = item.picture ? item.picture : error ? "https://www.dersigo.com/assets/images/logo/logo.png" : "";
         const title = `(${item.title ? item.title : "none"})`;
         const name = `${item.lastName.toUpperCase()}, ${item.firstName}`;
 
