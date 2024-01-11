@@ -94,106 +94,115 @@ const UserDetails = ({ params }) => {
 
   if (data) {
     return (
-      <section className="vh-100" style={{ backgroundColor: "#f4f5f7" }}>
-        <MDBContainer className="py-5 h-100">
-          <MDBRow className="justify-content-center align-items-center h-100">
-            <MDBCol lg="8" className="mb-4 mb-lg-0">
-              <MDBCard className="mb-3" style={{ borderRadius: ".5rem" }}>
-                <MDBRow className="g-0">
-                  <MDBCol
-                    md="4"
-                    className={`gradient-custom text-center ${
-                      data.gender === "female"
-                        ? "bg-pink-200"
-                        : data.gender === "male"
-                        ? "bg-blue-300"
-                        : ""
-                    } text-white flex flex-col justify-items-center`}
-                    style={{
-                      borderTopLeftRadius: ".5rem",
-                      borderBottomLeftRadius: ".5rem",
-                    }}
-                  >
-                    {picture}
-                    <MDBTypography tag="h5">
-                      {data.firstName} {data.lastName}
-                    </MDBTypography>
-                    <MDBCardText>
-                      {state}, {country}
-                    </MDBCardText>
-                  </MDBCol>
-                  <MDBCol md="8">
-                    <MDBCardBody className="p-4">
-                      <MDBTypography tag="h6" className="font-bold">
-                        Information
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="md:flex justify-between items-center space-x-2 my-2">
+            <div className="text-blue-600 text-xl ml-3 font-medium">
+              User Details
+            </div>
+          </div>
+        </div>
+        <section className="vh-100" style={{ backgroundColor: "#f4f5f7" }}>
+          <MDBContainer className="py-5 h-100">
+            <MDBRow className="justify-content-center align-items-center h-100">
+              <MDBCol lg="8" className="mb-4 mb-lg-0">
+                <MDBCard className="mb-3" style={{ borderRadius: ".5rem" }}>
+                  <MDBRow className="g-0">
+                    <MDBCol
+                      md="4"
+                      className={`gradient-custom text-center ${
+                        data.gender === "female"
+                          ? "bg-pink-200"
+                          : data.gender === "male"
+                          ? "bg-blue-300"
+                          : ""
+                      } text-white flex flex-col justify-items-center`}
+                      style={{
+                        borderTopLeftRadius: ".5rem",
+                        borderBottomLeftRadius: ".5rem",
+                      }}
+                    >
+                      {picture}
+                      <MDBTypography tag="h5">
+                        {data.firstName} {data.lastName}
                       </MDBTypography>
-                      <hr className="mt-0 mb-2" />
-                      <MDBRow className="pt-1">
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Gender
-                          </MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {gender}
-                          </MDBCardText>
-                        </MDBCol>
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Date of Birth
-                          </MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {dateOfBirth}
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
-                      <MDBRow className="pt-1">
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Phone
-                          </MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {data.phone}
-                          </MDBCardText>
-                        </MDBCol>
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Email
-                          </MDBTypography>
-                          <MDBCardText className="text-muted overflow-hidden whitespace-nowrap text-ellipsis cursor-default">
-                            {data.email}
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
-                      <MDBTypography tag="h6" className="font-bold mt-2">
-                        Registration
-                      </MDBTypography>
-                      <hr className="mt-0 mb-2" />
-                      <MDBRow className="pt-1">
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Registered Date
-                          </MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {formatDate(data.registerDate)}
-                          </MDBCardText>
-                        </MDBCol>
-                        <MDBCol size="6" className="mb-3">
-                          <MDBTypography tag="h6" className="font-semibold">
-                            Updated Date
-                          </MDBTypography>
-                          <MDBCardText className="text-muted">
-                            {formatDate(data.updatedDate)}
-                          </MDBCardText>
-                        </MDBCol>
-                      </MDBRow>
-                    </MDBCardBody>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCard>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </section>
+                      <MDBCardText>
+                        {state}, {country}
+                      </MDBCardText>
+                    </MDBCol>
+                    <MDBCol md="8">
+                      <MDBCardBody className="p-4">
+                        <MDBTypography tag="h6" className="font-bold">
+                          Information
+                        </MDBTypography>
+                        <hr className="mt-0 mb-2" />
+                        <MDBRow className="pt-1">
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Gender
+                            </MDBTypography>
+                            <MDBCardText className="text-muted">
+                              {gender}
+                            </MDBCardText>
+                          </MDBCol>
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Date of Birth
+                            </MDBTypography>
+                            <MDBCardText className="text-muted">
+                              {dateOfBirth}
+                            </MDBCardText>
+                          </MDBCol>
+                        </MDBRow>
+                        <MDBRow className="pt-1">
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Phone
+                            </MDBTypography>
+                            <MDBCardText className="text-muted">
+                              {data.phone}
+                            </MDBCardText>
+                          </MDBCol>
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Email
+                            </MDBTypography>
+                            <MDBCardText className="text-muted overflow-hidden whitespace-nowrap text-ellipsis cursor-default">
+                              {data.email}
+                            </MDBCardText>
+                          </MDBCol>
+                        </MDBRow>
+                        <MDBTypography tag="h6" className="font-bold mt-2">
+                          Registration
+                        </MDBTypography>
+                        <hr className="mt-0 mb-2" />
+                        <MDBRow className="pt-1">
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Registered Date
+                            </MDBTypography>
+                            <MDBCardText className="text-muted">
+                              {formatDate(data.registerDate)}
+                            </MDBCardText>
+                          </MDBCol>
+                          <MDBCol size="6" className="mb-3">
+                            <MDBTypography tag="h6" className="font-semibold">
+                              Updated Date
+                            </MDBTypography>
+                            <MDBCardText className="text-muted">
+                              {formatDate(data.updatedDate)}
+                            </MDBCardText>
+                          </MDBCol>
+                        </MDBRow>
+                      </MDBCardBody>
+                    </MDBCol>
+                  </MDBRow>
+                </MDBCard>
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+        </section>
+      </div>
     );
   }
 

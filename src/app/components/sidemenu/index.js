@@ -18,8 +18,8 @@ const SideMenu = () => {
   };
 
   return (
-    <div className="bg-gray-100 h-full flex md:p-0 sm:pl-5 md:justify-center">
-      <ul className="flex flex-row gap-4 z-40 sm:gap-10 p-0">
+    <div className="border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm h-full lg:w-auto sm:w-full flex lg:p-0 sm:pl-3 lg:justify-center">
+      <ul className="flex flex-row gap-5 z-40 sm:gap-10 p-0 mt-2">
         <li
           className="h-fit"
           onMouseEnter={toggleUsersDropdown}
@@ -67,14 +67,14 @@ const SideMenu = () => {
                   Posts List
                 </Link>
               </li>
-              <li className="p-1">
+              {/* <li className="p-1">
                 <Link
                   href="/posts/newPost"
                   className="text-blue-500 hover:text-blue-400 hover:border-b-2 border-blue-400"
                 >
                   New Post
                 </Link>
-              </li>
+              </li> */}
             </ul>
           )}
         </li>

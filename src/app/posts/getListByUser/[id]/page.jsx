@@ -1,9 +1,9 @@
 "use client";
 
 // ICONS
-import { IconSquareRoundedLetterX } from "@tabler/icons-react";
+import { IconPhotoPlus, IconSquareRoundedLetterX } from "@tabler/icons-react";
 import { IconUserEdit } from "@tabler/icons-react";
-import { IconExternalLink } from "@tabler/icons-react";
+import { PlaylistAdd } from "@mui/icons-material";
 import { IconPlus } from "@tabler/icons-react";
 // NEXT
 import Link from "next/link";
@@ -163,39 +163,38 @@ const GetListByUser = ({ params }) => {
 
   return (
     <div>
-      <div className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative">
-        <div className="flex justify-end items-center space-x-2 my-2">
-          <div className="relative">
-            <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-              <svg
-                className="h-3.5 w-3.5 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
-              </svg>
-            </div>
-            <input
-              type="text"
-              name="post-search"
-              id="post-search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="py-2 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-              placeholder="Search for posts"
-            />
+      <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+        <div className="md:flex justify-between items-center space-x-2 my-2 mx-3">
+          <div className="text-blue-600 text-xl font-medium">
+            {data && data.data && data.data[0] && data.data[0].owner
+              ? `${data.data[0].owner.firstName} ${data.data[0].owner.lastName}'s`
+              : "Users"}{" "}
+            Posts List
           </div>
-          <div className="">
-            <Link
-              href="/posts/newPost"
-              className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-sm border border-transparent font-normal focus:ring-0 focus:outline-none focus:ring-offset-0 transition-all text-sm m-1 ml-0 bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 float-right"
-            >
-              <IconPlus size={16} />
-              Add Post
-            </Link>
+          <div className="flex items-center md:justify-end justify-between gap-2">
+            <div className="relative">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                <svg
+                  className="h-3.5 w-3.5 text-gray-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                </svg>
+              </div>
+              <input
+                type="text"
+                name="post-search"
+                id="post-search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="py-2 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                placeholder="Search for posts"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -203,7 +202,7 @@ const GetListByUser = ({ params }) => {
         {filteredData.map((item) => (
           <Card
             key={item.id}
-            className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative min-h-[322px]"
+            className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative min-h-[322px]"
           >
             <CardHeader
               avatar={<Avatar alt="Owner" src={item.ownerPicture} />}
@@ -221,12 +220,13 @@ const GetListByUser = ({ params }) => {
                     onClose={() => handleClose(item.id)}
                   >
                     <MenuItem onClick={() => handleClose(item.id)}>
-                      <Link href={`/posts/postsList/${item.id}`}>
-                        <IconExternalLink />
+                      <Link href={`/posts/newPost/${item.ownerId}`}>
+                        <IconPhotoPlus color="#3B71CA" />
                       </Link>
                     </MenuItem>
                     <MenuItem onClick={() => handleClose(item.id)}>
                       <IconSquareRoundedLetterX
+                        color="#3B71CA"
                         onClick={() => {
                           setSelectedPostId(item.id);
                           setIsDeleteModalOpen(true);
@@ -234,13 +234,20 @@ const GetListByUser = ({ params }) => {
                       />
                     </MenuItem>
                     <MenuItem onClick={() => handleClose(item.id)}>
-                      <IconUserEdit />
+                      <IconUserEdit color="#3B71CA" />
                     </MenuItem>
                   </Menu>
                 </div>
               }
               title={`${item.ownerTitle} ${item.ownerFirstName} ${item.ownerLastName}`}
               subheader={item.publishDate}
+              className={
+                ["ms", "miss", "mrs"].includes(item.ownerTitle.toLowerCase())
+                  ? "bg-pink-100"
+                  : item.ownerTitle.toLowerCase() === "mr"
+                  ? "bg-blue-100"
+                  : ""
+              }
             />
             <Link href={`/posts/postsList/${item.id}`}>
               <CardMedia
@@ -290,11 +297,16 @@ const GetListByUser = ({ params }) => {
               </div>
             )}
             <Collapse in={expanded[item.id]} timeout="auto" unmountOnExit>
-              <CardContent>
-                <Typography paragraph>Tags:</Typography>
+              <CardContent className="flex items-center">
+                <Typography>Tags: </Typography>
                 {item.tags.map((tag) => (
                   <Typography key={tag} variant="body2" color="text.secondary">
-                    {tag}
+                    <Link
+                      className="bg-gray-200 text-md ml-2 p-1 rounded-sm hover:bg-gray-400 hover:text-white"
+                      href={`/posts/getListByTag/${tag}`}
+                    >
+                      {tag}
+                    </Link>
                   </Typography>
                 ))}
               </CardContent>

@@ -15,6 +15,7 @@ const PostsApi = createApi({
             method: "GET",
             params: {
               limit: 50,
+              // page: 17,
             },
             headers: {
               "app-id": "65956feced1269023544412a",
@@ -55,17 +56,14 @@ const PostsApi = createApi({
       }),
       updatePost: builder.mutation({
         invalidatesTags: ["Posts"],
-        query: (updatePost) => {
-          const { id } = updatePost;
+        query: ({ id, formData }) => {
           return {
             url: `post/${id}`,
             method: "PUT",
             headers: {
               "app-id": "65956feced1269023544412a",
             },
-            body: {
-              //güncellenen veri
-            },
+            body: formData,
           };
         },
       }),

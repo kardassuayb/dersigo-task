@@ -1,6 +1,6 @@
 "use client";
 import { useFetchPostDetailsQuery } from "@/redux/store";
-import dersigoUser from "../../../../asset/images/dersigoUser.png";
+import Link from "next/link";
 // MATERIAL UI
 import * as React from "react";
 import Card from "@mui/material/Card";
@@ -13,7 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const PostDetails = ({ params }) => {
   const id = params.id;
@@ -77,7 +76,7 @@ const PostDetails = ({ params }) => {
 
   return (
     <div>
-      <Card className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative">
+      <Card className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
         <CardHeader
           avatar={<Avatar alt="Owner" src={ownerPicture} />}
           title={`${ownerTitle} ${ownerFirstName} ${ownerLastName}`}
@@ -105,7 +104,12 @@ const PostDetails = ({ params }) => {
                 variant="body2"
                 color="text.secondary"
               >
-                {tag} /
+                <Link
+                  className="bg-gray-200 text-md ml-2 p-1 rounded-sm hover:bg-gray-400 hover:text-white"
+                  href={`/posts/getListByTag/${tag}`}
+                >
+                  {tag}
+                </Link>
               </Typography>
             ))}
           </CardContent>

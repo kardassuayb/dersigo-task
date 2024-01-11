@@ -127,10 +127,24 @@ const UpdateUser = ({ params }) => {
       .replace(".", "/");
   };
 
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+
+    const formattedDate = new Date(dateString).toISOString().slice(0, 16);
+    return formattedDate;
+  };
+
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-12">
-        <div className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative">
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="md:flex justify-between items-center space-x-2 my-2">
+            <div className="text-blue-600 text-xl ml-3 font-medium">
+              Update User
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
           <div className="p-3">
             <form
               onSubmit={handleSubmit}
@@ -138,12 +152,12 @@ const UpdateUser = ({ params }) => {
             >
               <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Title <span className="text-red-500">*</span>
                   </label>
                   <select
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="title"
                     value={formData.title}
                     required
@@ -155,12 +169,12 @@ const UpdateUser = ({ params }) => {
                   </select>
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     First Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="firstName"
                     type="text"
                     required
@@ -168,12 +182,12 @@ const UpdateUser = ({ params }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Last Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="lastName"
                     type="text"
                     required
@@ -181,11 +195,11 @@ const UpdateUser = ({ params }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="email"
                     type="email"
                     defaultValue={formData.email}
@@ -193,12 +207,12 @@ const UpdateUser = ({ params }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Gender <span className="text-red-500">*</span>
                   </label>
                   <select
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="gender"
                     value={formData.gender}
                     required
@@ -209,24 +223,24 @@ const UpdateUser = ({ params }) => {
                   </select>
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Date of Birth
                   </label>
                   <input
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="dateOfBirth"
                     type="datetime-local"
-                    defaultValue={formatDate(formData.dateOfBirth)}
+                    value={formatDateForInput(formData.dateOfBirth)}
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Phone Number
                   </label>
                   <input
                     onChange={handleChange}
-                    className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="phone"
                     type="number"
                     minLength={5}
@@ -234,14 +248,14 @@ const UpdateUser = ({ params }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-2">
+                  <label className="block text-sm font-medium mb-1">
                     Resim
                   </label>
                   <input
                     onChange={(e) =>
                       setFormData({ ...formData, picture: e.target.files[0] })
                     }
-                    className="py-2 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                     type="file"
                     accept="image/jpg, image/jpeg, image/png"
                   />
@@ -252,60 +266,60 @@ const UpdateUser = ({ params }) => {
                 <div className="text-xl font-semibold mb-2">Location</div>
                 <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
                   <div className="flex flex-col">
-                    <label className="block text-sm font-medium mb-2">
+                    <label className="block text-sm font-medium mb-1">
                       Street
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="street"
                       type="text"
                       defaultValue={formData.location.street}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="block text-sm font-medium mb-2">
+                    <label className="block text-sm font-medium mb-1">
                       City
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="city"
                       type="text"
                       defaultValue={formData.location.city}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="block text-sm font-medium mb-2">
+                    <label className="block text-sm font-medium mb-1">
                       State
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="state"
                       type="text"
                       defaultValue={formData.location.state}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="block text-sm font-medium mb-2">
+                    <label className="block text-sm font-medium mb-1">
                       Country
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="country"
                       type="text"
                       defaultValue={formData.location.country}
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="block text-sm font-medium mb-2">
+                    <label className="block text-sm font-medium mb-1">
                       Timezone
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
                       name="timezone"
                       type="text"
                       defaultValue={formData.location.timezone}
@@ -315,7 +329,7 @@ const UpdateUser = ({ params }) => {
               </div>
               <button
                 type="submit"
-                className="flex justify-center items-center gap-2 px-4 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
+                className="flex justify-center items-center gap-2 px-3 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
               >
                 <IconEdit size={16} /> Update
               </button>

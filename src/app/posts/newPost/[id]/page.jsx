@@ -1,28 +1,23 @@
 "use client";
-import { useUpdatePostMutation } from "@/redux/store";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useAddPostMutation } from "@/redux/store";
+import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { IconPlus } from "@tabler/icons-react";
 import { IconPhotoScan } from "@tabler/icons-react";
 import { TagsInput } from "react-tag-input-component";
 
-const UpdatePost = ({ params }) => {
-  const [updatePost] = useUpdatePostMutation();
-  const id = params.id;
-  console.log(id);
-  const searchParams = useSearchParams();
-  const postText = searchParams.get("postText");
-  const postImage = searchParams.get("postImage");
-  const stringTags = searchParams.get("stringTags");
-
-  const postTags = stringTags ? stringTags.split(",") : [];
-
-  const [selectedTags, setSelectedTags] = useState(postTags); // react-tag-input-component
+const AddPost = ({ params }) => {
+  const ownerId = params.id;
+  const [selectedTags, setSelectedTags] = useState([]); // react-tag-input-component
 
   const [formData, setFormData] = useState({
-    image: postImage && postImage != null ? postImage : "Görsel Yok",
-    tags: postTags,
-    text: postText && postText != null ? postText : "",
+    id: uuidv4(),
+    image: "https://www.dersigo.com/assets/images/logo/logo.png",
+    likes: 0,
+    tags: selectedTags,
+    text: "",
+    publishDate: new Date(),
+    owner: ownerId,
   });
 
   const tagsInputStyle = {
@@ -32,35 +27,54 @@ const UpdatePost = ({ params }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (
+      name === "title" ||
+      name === "firstName" ||
+      name === "lastName" ||
+      name === "picture"
+    ) {
+      setFormData({
+        ...formData,
+        owner: {
+          ...formData.owner,
+          [name]: value,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+
+  const [addPost] = useAddPostMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await updatePost({ id, formData });
+      const response = await addPost(formData);
 
       if (response.error) {
         console.error("Veri gönderilemedi!");
         return;
       }
+
       console.log("Veri gönderildi!");
     } catch (error) {
       console.error("Bir hata oluştu:", error);
     }
+    console.log(formData);
   };
 
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <div className="grid grid-cols-12 gap-x-6">
       <div className="col-span-12">
         <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
           <div className="md:flex justify-between items-center space-x-2 my-2">
             <div className="text-blue-600 text-xl ml-3 font-medium">
-              Update Post
+              New Post
             </div>
           </div>
         </div>
@@ -102,7 +116,6 @@ const UpdatePost = ({ params }) => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="text"
-                    value={postText}
                     type="text"
                   />
                 </div>
@@ -127,7 +140,7 @@ const UpdatePost = ({ params }) => {
                 type="submit"
                 className="flex justify-center items-center gap-2 px-4 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
               >
-                <IconPlus size={16} /> Update Post
+                <IconPlus size={16} /> Add Post
               </button>
             </form>
           </div>
@@ -137,4 +150,4 @@ const UpdatePost = ({ params }) => {
   );
 };
 
-export default UpdatePost;
+export default AddPost;

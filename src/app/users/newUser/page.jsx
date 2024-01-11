@@ -76,7 +76,14 @@ const AddUser = () => {
   return (
     <div className="grid grid-cols-12 gap-6">
       <div className="col-span-12">
-        <div className="flex flex-col border bg-white border-gray-200 shadow-lg rounded-sm mb-6 relative">
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="md:flex justify-between items-center space-x-2 my-2">
+            <div className="text-blue-600 text-xl ml-3 font-medium">
+              New User
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
           <div className="p-3">
             <form
               onSubmit={handleSubmit}
