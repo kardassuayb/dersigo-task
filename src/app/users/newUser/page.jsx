@@ -67,7 +67,25 @@ const AddUser = () => {
       }
 
       console.log("Veri gönderildi!");
-    } catch (error) {
+
+setFormData({
+      title: "",
+      firstName: "",
+      lastName: "",
+      picture: "",
+      gender: "",
+      email: "",
+      dateOfBirth: "",
+      phone: "",
+      location: {
+        street: "",
+        city: "",
+        state: "",
+        country: "",
+        timezone: "",
+      },
+    });    
+} catch (error) {
       console.error("Bir hata oluştu:", error);
     }
     console.log(formData);
