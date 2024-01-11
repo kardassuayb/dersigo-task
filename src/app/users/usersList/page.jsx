@@ -39,8 +39,9 @@ const HomePage = () => {
 
   const closeAllIcons = (event) => {
     const isIconClick = event.target.closest(".z-10");
+    const isUserIconsClick = event.target.closest(".user-icons");
 
-    if (!isIconClick) {
+    if (!isIconClick && !isUserIconsClick) {
       setIsIconsVisible({});
     }
   };
