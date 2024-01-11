@@ -76,56 +76,80 @@ const PostDetails = ({ params }) => {
 
   return (
     <div>
-      <Card className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
-        <CardHeader
-          avatar={
-            <Link href={`/posts/getListByUser/${ownerId}`}>
-              <Avatar alt="Owner" src={ownerPicture} />
-            </Link>
-          }
-          title={
-            <Link href={`/posts/getListByUser/${ownerId}`}>
-              {`${ownerTitle} ${ownerFirstName} ${ownerLastName}`}
-            </Link>
-          }
-          subheader={publishDate}
-        />
-        <CardMedia component="img" image={image} alt="post's picture" />
-        <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {text}
-          </Typography>
-        </CardContent>
-        <CardActions disableSpacing className="flex justify-between">
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-            <Typography>{likes}</Typography>
-          </IconButton>
-          <CardContent className="flex items-center">
-            <Typography className="mb-0 mr-2" paragraph>
-              Tags:
+      {error && (
+        <div className="text-red-500 font-bold p-4">
+          Error loading data. Please try again.
+        </div>
+      )}
+      {isFetching ? (
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="p-3">
+            <div className="flex animate-pulse">
+              <div className="ml-4 mt-2 w-full">
+                <ul className="space-y-3">
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Card className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <CardHeader
+            avatar={
+              <Link href={`/posts/getListByUser/${ownerId}`}>
+                <Avatar alt="Owner" src={ownerPicture} />
+              </Link>
+            }
+            title={
+              <Link href={`/posts/getListByUser/${ownerId}`}>
+                {`${ownerTitle} ${ownerFirstName} ${ownerLastName}`}
+              </Link>
+            }
+            subheader={publishDate}
+          />
+          <CardMedia component="img" image={image} alt="post's picture" />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              {text}
             </Typography>
-            {tags.map((tag) => (
-              <Typography
-                className="flex flex-col mr-1"
-                key={tag}
-                variant="body2"
-                color="text.secondary"
-              >
-                <Link
-                  className="bg-gray-200 text-md ml-2 p-1 rounded-sm hover:bg-gray-400 hover:text-white"
-                  href={`/posts/getListByTag/${tag}`}
-                >
-                  {tag}
-                </Link>
-              </Typography>
-            ))}
           </CardContent>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
+          <CardActions disableSpacing className="flex justify-between">
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+              <Typography>{likes}</Typography>
+            </IconButton>
+            <CardContent className="flex items-center">
+              <Typography className="mb-0 mr-2" paragraph>
+                Tags:
+              </Typography>
+              {tags.map((tag) => (
+                <Typography
+                  className="flex flex-col mr-1"
+                  key={tag}
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  <Link
+                    className="bg-gray-200 text-md ml-2 p-1 rounded-sm hover:bg-gray-400 hover:text-white"
+                    href={`/posts/getListByTag/${tag}`}
+                  >
+                    {tag}
+                  </Link>
+                </Typography>
+              ))}
+            </CardContent>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
+      )}
     </div>
   );
 };

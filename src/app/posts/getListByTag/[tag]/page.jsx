@@ -1,10 +1,11 @@
 "use client";
 
 // ICONS
-import { IconPhotoPlus, IconSquareRoundedLetterX } from "@tabler/icons-react";
-import { IconUserEdit } from "@tabler/icons-react";
-import { IconExternalLink } from "@tabler/icons-react";
-import { IconPlus } from "@tabler/icons-react";
+import {
+  IconPhotoPlus,
+  IconSquareRoundedLetterX,
+  IconUserEdit,
+} from "@tabler/icons-react";
 // NEXT
 import Link from "next/link";
 // REACT
@@ -16,38 +17,23 @@ import { useRemovePostMutation } from "@/redux/store";
 
 // MATERIAL UI
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 const GetListByTag = ({ params }) => {
   const tag = params.tag;
   const { data, error, isFetching } = useFetchPostsQuery();
-  console.log(data);
 
   // TARİH FORMAT DEĞİŞİKLİĞİ
   const formatDate = (dateString) => {
@@ -77,8 +63,6 @@ const GetListByTag = ({ params }) => {
   const filteredData = data
     ? data.data.filter((item) => item.tags.includes(tag))
     : [];
-
-  console.log(filteredData);
 
   const transformedData = data
     ? filteredData.map((item) => {
@@ -134,15 +118,6 @@ const GetListByTag = ({ params }) => {
   const searchedData = transformedData.filter((item) =>
     item.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const [expanded, setExpanded] = useState(false);
-
-  const handleExpandClick = (itemId) => {
-    setExpanded((prevState) => ({
-      ...prevState,
-      [itemId]: !prevState[itemId],
-    }));
-  };
 
   const [anchorEl, setAnchorEl] = useState({});
 
@@ -215,129 +190,146 @@ const GetListByTag = ({ params }) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-x-6">
-        {searchedData.map((item) => (
-          <Card
-            key={item.id}
-            className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative min-h-[322px]"
-          >
-            <CardHeader
-              avatar={
-                <Link href={`/posts/getListByUser/${item.ownerId}`}>
-                  <Avatar alt="Owner" src={item.ownerPicture} />
-                </Link>
-              }
-              action={
-                <div>
-                  <IconButton
-                    aria-label="settings"
-                    onClick={(e) => handleMenuClick(e, item.id)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                  <Menu
-                    anchorEl={anchorEl[item.id]}
-                    open={Boolean(anchorEl[item.id])}
-                    onClose={() => handleClose(item.id)}
-                  >
-                    <MenuItem onClick={() => handleClose(item.id)}>
-                      <Link href={`/posts/postsList/${item.id}`}>
-                        <IconPhotoPlus color="#3B71CA" />
-                      </Link>
-                    </MenuItem>
-                    <MenuItem onClick={() => handleClose(item.id)}>
-                      <IconSquareRoundedLetterX
-                        color="#3B71CA"
-                        onClick={() => {
-                          setSelectedPostId(item.id);
-                          setIsDeleteModalOpen(true);
-                        }}
-                      />
-                    </MenuItem>
-                    <MenuItem onClick={() => handleClose(item.id)}>
-                      <IconUserEdit color="#3B71CA" />
-                    </MenuItem>
-                  </Menu>
-                </div>
-              }
-              title={
-                <Link href={`/posts/getListByUser/${item.ownerId}`}>
-                  {item.postTitle}
-                </Link>
-              }
-              subheader={item.publishDate}
-              className={
-                ["ms", "miss", "mrs"].includes(item.ownerTitle.toLowerCase())
-                  ? "bg-pink-100"
-                  : item.ownerTitle.toLowerCase() === "mr"
-                  ? "bg-blue-100"
-                  : ""
-              }
-            />
-            <Link href={`/posts/postsList/${item.id}`}>
-              <CardMedia
-                component="img"
-                height="120"
-                image={item.image}
-                alt="post's picture"
-                className="!h-[120px]"
-              />
-            </Link>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {item.text}
-              </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-                <Typography>{item.likes}</Typography>
-              </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-              <ExpandMore
-                expand={expanded[item.id]}
-                onClick={() => handleExpandClick(item.id)}
-                aria-expanded={expanded[item.id]}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
-            </CardActions>
-            {isDeleteModalOpen && selectedPostId === item.id && (
-              <div className="flex flex-col gap-2 absolute top-[52px] right-[50px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
-                <p>Delete Post!</p>
-                <div className="flex justify-around gap-2">
-                  <button onClick={deletePost} className="text-red-700">
-                    Delete
-                  </button>
-                  <button
-                    className="text-blue-700"
-                    onClick={() => setIsDeleteModalOpen(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
+      {error && (
+        <div className="text-red-500 font-bold p-4">
+          Error loading data. Please try again.
+        </div>
+      )}
+      {isFetching && (
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="p-3">
+            <div className="flex animate-pulse">
+              <div className="ml-4 mt-2 w-full">
+                <ul className="space-y-3">
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                </ul>
               </div>
-            )}
-            <Collapse in={expanded[item.id]} timeout="auto" unmountOnExit>
-              <CardContent className="flex items-center">
-                <Typography>Tags:</Typography>
-                {item.tags.map((tag) => (
-                  <Typography key={tag} variant="body2" color="text.secondary">
-                    <Link
-                      className="bg-gray-200 text-md ml-2 p-1 rounded-sm hover:bg-gray-400 hover:text-white"
-                      href={`/posts/getListByTag/${tag}`}
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="grid grid-cols-12 gap-x-6">
+        {data &&
+          searchedData.map((item) => (
+            <Card
+              key={item.id}
+              className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative min-h-[322px]"
+            >
+              <CardHeader
+                avatar={
+                  <Link href={`/posts/getListByUser/${item.ownerId}`}>
+                    <Avatar alt="Owner" src={item.ownerPicture} />
+                  </Link>
+                }
+                action={
+                  <div>
+                    <IconButton
+                      aria-label="settings"
+                      onClick={(e) => handleMenuClick(e, item.id)}
                     >
-                      {tag}
-                    </Link>
-                  </Typography>
-                ))}
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl[item.id]}
+                      open={Boolean(anchorEl[item.id])}
+                      onClose={() => handleClose(item.id)}
+                    >
+                      <MenuItem onClick={() => handleClose(item.id)}>
+                        <Link href={`/posts/postsList/${item.id}`}>
+                          <IconPhotoPlus color="#3B71CA" />
+                        </Link>
+                      </MenuItem>
+                      <MenuItem onClick={() => handleClose(item.id)}>
+                        <IconSquareRoundedLetterX
+                          color="#3B71CA"
+                          onClick={() => {
+                            setSelectedPostId(item.id);
+                            setIsDeleteModalOpen(true);
+                          }}
+                        />
+                      </MenuItem>
+                      <MenuItem onClick={() => handleClose(item.id)}>
+                        <IconUserEdit color="#3B71CA" />
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                }
+                title={
+                  <Link href={`/posts/getListByUser/${item.ownerId}`}>
+                    {item.postTitle}
+                  </Link>
+                }
+                subheader={item.publishDate}
+                className={
+                  ["ms", "miss", "mrs"].includes(item.ownerTitle.toLowerCase())
+                    ? "bg-pink-100"
+                    : item.ownerTitle.toLowerCase() === "mr"
+                    ? "bg-blue-100"
+                    : ""
+                }
+              />
+              <Link href={`/posts/postsList/${item.id}`}>
+                <CardMedia
+                  component="img"
+                  height="120"
+                  image={item.image}
+                  alt="post's picture"
+                  className="!h-[120px]"
+                />
+              </Link>
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {item.text}
+                </Typography>
               </CardContent>
-            </Collapse>
-          </Card>
-        ))}
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                  <Typography>{item.likes}</Typography>
+                </IconButton>
+                <IconButton aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+                <CardContent className="flex items-center ml-auto gap-1 !pb-0 !p-0">
+                  {item.tags.map((tag) => (
+                    <Typography
+                      key={tag}
+                      variant="body2"
+                      color="text.secondary"
+                    >
+                      <Link
+                        className="bg-gray-200 text-sm p-1 rounded-sm hover:bg-gray-400 hover:text-white"
+                        href={`/posts/getListByTag/${tag}`}
+                      >
+                        {tag}
+                      </Link>
+                    </Typography>
+                  ))}
+                </CardContent>
+              </CardActions>
+              {isDeleteModalOpen && selectedPostId === item.id && (
+                <div className="flex flex-col gap-2 absolute top-[52px] right-[50px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
+                  <p>Delete Post!</p>
+                  <div className="flex justify-around gap-2">
+                    <button onClick={deletePost} className="text-red-700">
+                      Delete
+                    </button>
+                    <button
+                      className="text-blue-700"
+                      onClick={() => setIsDeleteModalOpen(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+            </Card>
+          ))}
       </div>
     </div>
   );

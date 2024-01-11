@@ -121,99 +121,127 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-x-6">
-        {filteredData.map((user) => (
-          <div
-            className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 "
-            key={user.id}
-          >
-            <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3">
-              <div
-                className={`p-3 space-y-3 relative ${
-                  ["(ms)", "(miss)", "(mrs)"].includes(user.title.toLowerCase())
-                    ? "bg-pink-100"
-                    : user.title.toLowerCase() === "(mr)"
-                    ? "bg-blue-100"
-                    : ""
-                }`}
-              >
-                <div
-                  className="z-10 absolute top-1 right-1 p-1 block cursor-pointer hover:bg-gray-300 rounded-full"
-                  onClick={() => handleIconsVisibility(user.id)}
-                >
-                  <IconDotsVertical color="gray" />
-                </div>
-                <div className="relative mx-auto p-2 border border-gray-200 rounded-sm bg-gray-100">
-                  <Link href={`/users/usersList/${user.id}`}>
-                    <Image
-                      src={user.image}
-                      width={160}
-                      height={160}
-                      className="mx-auto rounded-sm"
-                      alt="User's Picture"
-                      priority
-                    />
-                  </Link>
-                  <div
-                    className={`user-icons z-999 absolute top-2 right-2 ${
-                      isIconsVisible[user.id] ? "block" : "hidden"
-                    }`}
-                  >
-                    <div className=" bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
-                      <i className="hover:text-blue-500">
-                        <IconSquareRoundedLetterX
-                          onClick={() => {
-                            setSelectedUserId(user.id);
-                            setIsDeleteModalOpen(true);
-                          }}
-                        />
-                      </i>
-                      {isDeleteModalOpen && selectedUserId === user.id && (
-                        <div className="flex flex-col gap-2 absolute -top-[54px] right-[22px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
-                          <p>Delete User!</p>
-                          <div className="flex justify-around gap-2">
-                            <button
-                              onClick={deleteUser}
-                              className="text-red-700"
-                            >
-                              Delete
-                            </button>
-                            <button
-                              className="text-blue-700"
-                              onClick={() => setIsDeleteModalOpen(false)}
-                            >
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <Link
-                      href={`/users/usersList/${user.id}`}
-                      className="z-40 absolute top-12 right-2 bg-white p-2 leading-none rounded-full text-gray-500 text-base"
-                    >
-                      <i>
-                        <IconExternalLink />
-                      </i>
-                    </Link>
-                    <Link
-                      href={`/users/updateUser/${user.id}`}
-                      className="z-40 absolute top-[5.5rem] right-2 bg-white p-2 leading-none rounded-full text-gray-500 text-base"
-                    >
-                      <i>
-                        <IconUserEdit />
-                      </i>
-                    </Link>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center space-x-1">
-                  <p className="mb-0 text-sm">{user.title}</p>
-                  <h5 className="text-base font-semibold mb-0">{user.name}</h5>
-                </div>
+      {error && (
+        <div className="text-red-500 font-bold p-4">
+          Error loading data. Please try again.
+        </div>
+      )}
+      {isFetching && (
+        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+          <div className="p-3">
+            <div className="flex animate-pulse">
+              <div className="ml-4 mt-2 w-full">
+                <ul className="space-y-3">
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                </ul>
               </div>
             </div>
           </div>
-        ))}
+        </div>
+      )}
+      <div className="grid grid-cols-12 gap-x-6">
+        {data &&
+          filteredData.map((user) => (
+            <div
+              className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 "
+              key={user.id}
+            >
+              <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3">
+                <div
+                  className={`p-3 space-y-3 relative ${
+                    ["(ms)", "(miss)", "(mrs)"].includes(
+                      user.title.toLowerCase()
+                    )
+                      ? "bg-pink-100"
+                      : user.title.toLowerCase() === "(mr)"
+                      ? "bg-blue-100"
+                      : ""
+                  }`}
+                >
+                  <div
+                    className="z-10 absolute top-1 right-1 p-1 block cursor-pointer hover:bg-gray-300 rounded-full"
+                    onClick={() => handleIconsVisibility(user.id)}
+                  >
+                    <IconDotsVertical color="gray" />
+                  </div>
+                  <div className="relative mx-auto p-2 border border-gray-200 rounded-sm bg-gray-100">
+                    <Link href={`/users/usersList/${user.id}`}>
+                      <Image
+                        src={user.image}
+                        width={160}
+                        height={160}
+                        className="mx-auto rounded-sm"
+                        alt="User's Picture"
+                        priority
+                      />
+                    </Link>
+                    <div
+                      className={`user-icons z-999 absolute top-2 right-2 ${
+                        isIconsVisible[user.id] ? "block" : "hidden"
+                      }`}
+                    >
+                      <div className=" bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
+                        <i className="hover:text-blue-500">
+                          <IconSquareRoundedLetterX
+                            onClick={() => {
+                              setSelectedUserId(user.id);
+                              setIsDeleteModalOpen(true);
+                            }}
+                          />
+                        </i>
+                        {isDeleteModalOpen && selectedUserId === user.id && (
+                          <div className="flex flex-col gap-2 absolute -top-[54px] right-[22px] bg-[#9AD0C2] text-[#141B19] py-2 px-2 rounded-md z-999 font-bold text-sm">
+                            <p>Delete User!</p>
+                            <div className="flex justify-around gap-2">
+                              <button
+                                onClick={deleteUser}
+                                className="text-red-700"
+                              >
+                                Delete
+                              </button>
+                              <button
+                                className="text-blue-700"
+                                onClick={() => setIsDeleteModalOpen(false)}
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <Link
+                        href={`/users/usersList/${user.id}`}
+                        className="z-40 absolute top-12 bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                      >
+                        <i>
+                          <IconExternalLink size={24} />
+                        </i>
+                      </Link>
+                      <Link
+                        href={`/users/updateUser/${user.id}`}
+                        className="z-40 absolute top-[5.8rem] bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                      >
+                        <i>
+                          <IconUserEdit size={24} />
+                        </i>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="flex justify-center items-center space-x-1">
+                    <p className="mb-0 text-sm">{user.title}</p>
+                    <h5 className="text-base font-semibold mb-0">
+                      {user.name}
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

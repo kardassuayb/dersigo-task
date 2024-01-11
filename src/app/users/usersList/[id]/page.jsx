@@ -84,24 +84,38 @@ const UserDetails = ({ params }) => {
       ? formatDate(data.dateOfBirth)
       : "Unknown";
 
-  if (isFetching) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  if (data) {
-    return (
-      <div className="flex flex-col gap-2">
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+        <div className="md:flex justify-between items-center space-x-2 my-2">
+          <div className="text-blue-600 text-xl ml-3 font-medium">
+            User Details
+          </div>
+        </div>
+      </div>
+      {error && (
+        <div className="text-red-500 font-bold p-4">
+          Error loading data. Please try again.
+        </div>
+      )}
+      {isFetching ? (
         <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
-          <div className="md:flex justify-between items-center space-x-2 my-2">
-            <div className="text-blue-600 text-xl ml-3 font-medium">
-              User Details
+          <div className="p-3">
+            <div className="flex animate-pulse">
+              <div className="ml-4 mt-2 w-full">
+                <ul className="space-y-3">
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
+      ) : (
         <section className="vh-100" style={{ backgroundColor: "#f4f5f7" }}>
           <MDBContainer className="py-5 h-100">
             <MDBRow className="justify-content-center align-items-center h-100">
@@ -202,11 +216,9 @@ const UserDetails = ({ params }) => {
             </MDBRow>
           </MDBContainer>
         </section>
-      </div>
-    );
-  }
-
-  return null;
+      )}
+    </div>
+  );
 };
 
 export default UserDetails;

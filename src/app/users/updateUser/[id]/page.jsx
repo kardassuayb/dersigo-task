@@ -144,198 +144,222 @@ const UpdateUser = ({ params }) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
-          <div className="p-3">
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col col-span-2 rounded "
-            >
-              <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Title <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="title"
-                    value={formData.title}
-                    required
-                  >
-                    <option value="ms">ms</option>
-                    <option value="miss">miss</option>
-                    <option value="mrs">mrs</option>
-                    <option value="mr">mr</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    First Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="firstName"
-                    type="text"
-                    required
-                    defaultValue={formData.firstName}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Last Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="lastName"
-                    type="text"
-                    required
-                    defaultValue={formData.lastName}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Email <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="email"
-                    type="email"
-                    defaultValue={formData.email}
-                    readOnly
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Gender <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="gender"
-                    value={formData.gender}
-                    required
-                  >
-                    <option value="female">female</option>
-                    <option value="male">male</option>
-                    <option value="other">other</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Date of Birth
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="dateOfBirth"
-                    type="datetime-local"
-                    value={formatDateForInput(formData.dateOfBirth)}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    onChange={handleChange}
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
-                    name="phone"
-                    type="number"
-                    minLength={5}
-                    defaultValue={formData.phone}
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-medium mb-1">
-                    Resim
-                  </label>
-                  <input
-                    onChange={(e) =>
-                      setFormData({ ...formData, picture: e.target.files[0] })
-                    }
-                    className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                    type="file"
-                    accept="image/jpg, image/jpeg, image/png"
-                  />
+        {error && (
+          <div className="text-red-500 font-bold p-4">
+            Error loading data. Please try again.
+          </div>
+        )}
+        {isFetching ? (
+          <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+            <div className="p-3">
+              <div className="flex animate-pulse">
+                <div className="ml-4 mt-2 w-full">
+                  <ul className="space-y-3">
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                    <li className="w-full h-12 bg-gray-200 rounded-sm"></li>
+                  </ul>
                 </div>
               </div>
-              <hr className="mt-2 mb-2" />
-              <div>
-                <div className="text-xl font-semibold mb-2">Location</div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
+            <div className="p-3">
+              <form
+                onSubmit={handleSubmit}
+                className="flex flex-col col-span-2 rounded "
+              >
                 <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
                   <div className="flex flex-col">
                     <label className="block text-sm font-medium mb-1">
-                      Street
+                      Title <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      onChange={handleChange}
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="title"
+                      value={formData.title}
+                      required
+                    >
+                      <option value="ms">ms</option>
+                      <option value="miss">miss</option>
+                      <option value="mrs">mrs</option>
+                      <option value="mr">mr</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="block text-sm font-medium mb-1">
+                      First Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                      name="street"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="firstName"
                       type="text"
-                      defaultValue={formData.location.street}
+                      required
+                      defaultValue={formData.firstName}
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className="block text-sm font-medium mb-1">
-                      City
+                      Last Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                      name="city"
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="lastName"
                       type="text"
-                      defaultValue={formData.location.city}
+                      required
+                      defaultValue={formData.lastName}
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className="block text-sm font-medium mb-1">
-                      State
+                      Email <span className="text-red-500">*</span>
                     </label>
                     <input
-                      onChange={handleChange}
-                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                      name="state"
-                      type="text"
-                      defaultValue={formData.location.state}
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="email"
+                      type="email"
+                      defaultValue={formData.email}
+                      readOnly
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className="block text-sm font-medium mb-1">
-                      Country
+                      Gender <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      onChange={handleChange}
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="gender"
+                      value={formData.gender}
+                      required
+                    >
+                      <option value="female">female</option>
+                      <option value="male">male</option>
+                      <option value="other">other</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="block text-sm font-medium mb-1">
+                      Date of Birth
                     </label>
                     <input
                       onChange={handleChange}
-                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                      name="country"
-                      type="text"
-                      defaultValue={formData.location.country}
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="dateOfBirth"
+                      type="datetime-local"
+                      value={formatDateForInput(formData.dateOfBirth)}
                     />
                   </div>
                   <div className="flex flex-col">
                     <label className="block text-sm font-medium mb-1">
-                      Timezone
+                      Phone Number
                     </label>
                     <input
                       onChange={handleChange}
+                      className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
+                      name="phone"
+                      type="number"
+                      minLength={5}
+                      defaultValue={formData.phone}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="block text-sm font-medium mb-1">
+                      Resim
+                    </label>
+                    <input
+                      onChange={(e) =>
+                        setFormData({ ...formData, picture: e.target.files[0] })
+                      }
                       className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
-                      name="timezone"
-                      type="text"
-                      defaultValue={formData.location.timezone}
+                      type="file"
+                      accept="image/jpg, image/jpeg, image/png"
                     />
                   </div>
                 </div>
-              </div>
-              <button
-                type="submit"
-                className="flex justify-center items-center gap-2 px-3 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
-              >
-                <IconEdit size={16} /> Update
-              </button>
-            </form>
+                <hr className="mt-2 mb-2" />
+                <div>
+                  <div className="text-xl font-semibold mb-2">Location</div>
+                  <div className="grid grid-cols-2 xs:grid-cols-1 md:grid-cols-2 gap-x-4">
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium mb-1">
+                        Street
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                        name="street"
+                        type="text"
+                        defaultValue={formData.location.street}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium mb-1">
+                        City
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                        name="city"
+                        type="text"
+                        defaultValue={formData.location.city}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium mb-1">
+                        State
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                        name="state"
+                        type="text"
+                        defaultValue={formData.location.state}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium mb-1">
+                        Country
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                        name="country"
+                        type="text"
+                        defaultValue={formData.location.country}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="block text-sm font-medium mb-1">
+                        Timezone
+                      </label>
+                      <input
+                        onChange={handleChange}
+                        className="py-2 px-3 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm"
+                        name="timezone"
+                        type="text"
+                        defaultValue={formData.location.timezone}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  className="flex justify-center items-center gap-2 px-3 py-1 border-2 text-sm font-semibold border-[#5A66F1] text-white rounded-sm bg-[#5A66F1] w-30 h-10 ml-auto mt-6 hover:bg-[#2e3eed] hover:border-[#5A66F1]"
+                >
+                  <IconEdit size={16} /> Update
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
