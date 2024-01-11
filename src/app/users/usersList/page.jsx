@@ -5,6 +5,7 @@ import { IconSquareRoundedLetterX } from "@tabler/icons-react";
 import { IconUserEdit } from "@tabler/icons-react";
 import { IconExternalLink } from "@tabler/icons-react";
 import { IconPlus } from "@tabler/icons-react";
+import { IconDotsVertical } from "@tabler/icons-react";
 // NEXT
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +19,31 @@ import dersigoUser from "../../../asset/images/dersigoUser.png";
 
 const HomePage = () => {
   const { data, error, isFetching } = useFetchUsersQuery();
-  console.log(data);
+  const [isIconsVisible, setIsIconsVisible] = useState({});
+
+  const handleIconsVisibility = (userId) => {
+    setIsIconsVisible((prevState) => {
+      const newState = { ...prevState };
+      newState[userId] = !newState[userId];
+
+      Object.keys(newState).forEach((key) => {
+        if (key !== userId) {
+          newState[key] = false;
+        }
+      });
+
+      return newState;
+    });
+    console.log(isIconsVisible);
+  };
+
+  const closeAllIcons = (event) => {
+    const isIconClick = event.target.closest(".z-10");
+
+    if (!isIconClick) {
+      setIsIconsVisible({});
+    }
+  };
 
   const transformedData = data
     ? data.data.map((item) => {
@@ -54,7 +79,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div onClick={closeAllIcons}>
       <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
         <div className="md:flex justify-between items-center space-x-2 my-2">
           <div className="text-blue-600 text-xl ml-3 font-medium">
@@ -102,9 +127,9 @@ const HomePage = () => {
             className="xs:col-span-12 sm:col-span-6 md:col-span-4 lg:col-span-3 "
             key={user.id}
           >
-            <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative user-box">
+            <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3">
               <div
-                className={`p-3 space-y-3 ${
+                className={`p-3 space-y-3 relative ${
                   ["(ms)", "(miss)", "(mrs)"].includes(user.title.toLowerCase())
                     ? "bg-pink-100"
                     : user.title.toLowerCase() === "(mr)"
@@ -112,6 +137,12 @@ const HomePage = () => {
                     : ""
                 }`}
               >
+                <div
+                  className="z-10 absolute top-1 right-1 p-1 block cursor-pointer hover:bg-gray-300 rounded-full"
+                  onClick={() => handleIconsVisibility(user.id)}
+                >
+                  <IconDotsVertical color="gray" />
+                </div>
                 <div className="relative mx-auto p-2 border border-gray-200 rounded-sm bg-gray-100">
                   <Link href={`/users/usersList/${user.id}`}>
                     <Image
@@ -123,8 +154,12 @@ const HomePage = () => {
                       priority
                     />
                   </Link>
-                  <div className="user-icons">
-                    <div className="z-40 absolute top-2 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
+                  <div
+                    className={`user-icons z-999 absolute top-2 right-2 ${
+                      isIconsVisible[user.id] ? "block" : "hidden"
+                    }`}
+                  >
+                    <div className=" bg-white p-2 leading-none rounded-full text-gray-500 text-base cursor-pointer">
                       <i className="hover:text-blue-500">
                         <IconSquareRoundedLetterX
                           onClick={() => {
@@ -155,7 +190,7 @@ const HomePage = () => {
                     </div>
                     <Link
                       href={`/users/usersList/${user.id}`}
-                      className="z-40 absolute top-12 right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                      className="z-40 absolute top-12 right-2 bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                     >
                       <i>
                         <IconExternalLink />
@@ -163,7 +198,7 @@ const HomePage = () => {
                     </Link>
                     <Link
                       href={`/users/updateUser/${user.id}`}
-                      className="z-40 absolute top-[5.5rem] right-2 block bg-white p-2 leading-none rounded-full text-gray-500 text-base"
+                      className="z-40 absolute top-[5.5rem] right-2 bg-white p-2 leading-none rounded-full text-gray-500 text-base"
                     >
                       <i>
                         <IconUserEdit />

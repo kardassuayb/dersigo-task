@@ -78,8 +78,16 @@ const PostDetails = ({ params }) => {
     <div>
       <Card className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
         <CardHeader
-          avatar={<Avatar alt="Owner" src={ownerPicture} />}
-          title={`${ownerTitle} ${ownerFirstName} ${ownerLastName}`}
+          avatar={
+            <Link href={`/posts/getListByUser/${ownerId}`}>
+              <Avatar alt="Owner" src={ownerPicture} />
+            </Link>
+          }
+          title={
+            <Link href={`/posts/getListByUser/${ownerId}`}>
+              {`${ownerTitle} ${ownerFirstName} ${ownerLastName}`}
+            </Link>
+          }
           subheader={publishDate}
         />
         <CardMedia component="img" image={image} alt="post's picture" />

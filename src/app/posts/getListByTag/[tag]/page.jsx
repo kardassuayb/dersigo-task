@@ -175,7 +175,7 @@ const GetListByTag = ({ params }) => {
   return (
     <div>
       <div className="flex flex-col border bg-[#f4f5f7] border-[#f4f5f7] shadow-sm rounded-sm mb-3 relative">
-        <div className="md:flex justify-between items-center space-x-2 my-2 mx-3">
+        <div className="md:flex justify-between items-center md:space-x-2 my-2 mx-3">
           <div className="text-blue-600 text-xl font-medium">
             {`Posts List with [${tag}]`}
           </div>

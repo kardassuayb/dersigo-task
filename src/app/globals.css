@@ -20,12 +20,3 @@ body {
   font-size: 1rem;
   background-color: #fff;
 }
-
-@layer components {
-  .user-icons {
-    @apply hidden;
-  }
-  .user-box:hover .user-icons {
-    @apply block;
-  }
-}

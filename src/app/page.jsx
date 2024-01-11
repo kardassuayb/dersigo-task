@@ -5,10 +5,10 @@ import dersigo from "../asset/images/dersigo.png";
 
 const HomePage = () => {
   return (
-    <div className="flex items-center xs:mt-40 md:mt-0">
+    <div className="flex my-auto shadow-xl rounded-xl p-10 mx-2 xs:mt-40 md:mt-0">
       <Image
         src={dersigo}
-        className="mx-auto rounded-sm"
+        className="my-auto mx-auto rounded-sm"
         alt="User's Picture"
       />
     </div>
