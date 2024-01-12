@@ -178,7 +178,7 @@ const AddUser = () => {
                     onChange={handleChange}
                     className="py-3 px-4 border border-gray-200 block w-full rounded-sm text-sm focus:border-gray-200 focus:ring-transparent focus:shadow-sm mb-2"
                     name="phone"
-                    type="number"
+                    type="tel"
                     placeholder="Phone Number"
                     minLength={5}
                   />
