@@ -7,11 +7,11 @@ import { IconPlus } from "@tabler/icons-react";
 const AddUser = () => {
   const [formData, setFormData] = useState({
     id: uuidv4(),
-    title: "",
+    title: "ms",
     firstName: "",
     lastName: "",
     picture: "",
-    gender: "",
+    gender: "female",
     email: "",
     dateOfBirth: "",
     phone: "",
@@ -68,24 +68,24 @@ const AddUser = () => {
 
       console.log("Veri gönderildi!");
 
-setFormData({
-      title: "",
-      firstName: "",
-      lastName: "",
-      picture: "",
-      gender: "",
-      email: "",
-      dateOfBirth: "",
-      phone: "",
-      location: {
-        street: "",
-        city: "",
-        state: "",
-        country: "",
-        timezone: "",
-      },
-    });    
-} catch (error) {
+      setFormData({
+        title: "",
+        firstName: "",
+        lastName: "",
+        picture: "",
+        gender: "",
+        email: "",
+        dateOfBirth: "",
+        phone: "",
+        location: {
+          street: "",
+          city: "",
+          state: "",
+          country: "",
+          timezone: "",
+        },
+      });
+    } catch (error) {
       console.error("Bir hata oluştu:", error);
     }
     console.log(formData);
@@ -198,7 +198,6 @@ setFormData({
                     name="phone"
                     type="tel"
                     placeholder="Phone Number"
-                    minLength={5}
                   />
                 </div>
                 <div className="flex flex-col">
